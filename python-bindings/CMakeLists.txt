@@ -1,10 +1,9 @@
 
 FetchContent_Declare(
   pybind11
-  GIT_REPOSITORY https://github.com/pybind/pybind11.git
-  GIT_TAG        v2.6.2
+  SOURCE_DIR @pybind11_src@
 )
-FetchContent_MakeAvailable(pybind11 relic)
+FetchContent_MakeAvailable(pybind11)
 
 pybind11_add_module(blspy ${CMAKE_CURRENT_SOURCE_DIR}/pythonbindings.cpp)
-target_link_libraries(blspy PRIVATE bls)
+target_link_libraries(blspy PRIVATE relic bls)

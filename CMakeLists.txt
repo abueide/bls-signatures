@@ -30,33 +30,9 @@ set(CMAKE_MODULE_PATH
 
 include(FetchContent)
 
-FetchContent_Declare(Sodium
-  GIT_REPOSITORY https://github.com/AmineKhaldi/libsodium-cmake.git
-  # Latest commit at the moment this was added here
-  # Anchored to libsodium v1.0.18
-  GIT_TAG f73a3fe1afdc4e37ac5fe0ddd401bf521f6bba65
-)
 set(SODIUM_PCH "on" CACHE STRING "")
 set(SODIUM_DISABLE_TESTS "on" CACHE STRING "")
 set(SODIUM_CHIA_MINIMAL "on" CACHE STRING "")
-FetchContent_MakeAvailable(Sodium)
-
-if (DEFINED ENV{RELIC_MAIN})
-  set(RELIC_GIT_TAG "origin/main")
-else ()
-  # This is currently anchored to upstream aecdcae7956f542fbee2392c1f0feb0a8ac41dc5
-  set(RELIC_GIT_TAG "1d98e5abf3ca5b14fd729bd5bcced88ea70ecfd7")
-endif ()
-
-message(STATUS "Relic will be built from: ${RELIC_GIT_TAG}")
-
-FetchContent_Declare(
-  relic
-  GIT_REPOSITORY https://github.com/Chia-Network/relic.git
-  GIT_TAG ${RELIC_GIT_TAG}
-)
-
-# Relic related options
 
 set(STBIN TRUE)
 find_package(gmp)
@@ -128,8 +104,6 @@ set(QUIET "on" CACHE STRING "Relic - Build with printing disabled")
 
 set(PP_EXT "LAZYR" CACHE STRING "")
 set(PP_METHD "LAZYR;OATEP" CACHE STRING "")
-
-FetchContent_MakeAvailable(relic)
 
 add_subdirectory(src)
 
