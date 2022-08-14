@@ -10,17 +10,12 @@ add_library(bls
   ${CMAKE_CURRENT_SOURCE_DIR}/schemes.cpp
 )
 
-add_library(relic STATIC IMPORTED GLOBAL)
-set_target_properties(relic PROPERTIES
-    LINKER_LANGUAGE CXX
-    IMPORTED_LOCATION "@relic@/lib/lib_relic_s.a"
-)
-
 target_include_directories(bls
   PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    @relic@/include/relic
     $<$<BOOL:${GMP_FOUND}>:${GMP_INCLUDES}>
+        /home/andrea/projects/relic/build/include
+        /home/andrea/projects/relic/build/lib/
 )
 
 target_compile_definitions(bls
@@ -30,11 +25,12 @@ target_compile_definitions(bls
 
 target_link_libraries(bls
   PUBLIC
-    relic
+    relic_s
     sodium
 )
 
-install(DIRECTORY @relic@/include/ DESTINATION include/chiabls)
+install(DIRECTORY /home/andrea/projects/relic/build/include DESTINATION include/chiabls)
+install(DIRECTORY /home/andrea/projects/relic/build/lib DESTINATION include/chiabls)
 install(FILES ${HEADERS} DESTINATION include/chiabls)
 install(FILES $<TARGET_FILE:bls> DESTINATION lib)
 

@@ -96,7 +96,6 @@ set(FP_PMERS "off" CACHE STRING "")
 set(FPX_METHD "INTEG;INTEG;LAZYR" CACHE STRING "")
 set(EP_PLAIN "off" CACHE STRING "")
 set(EP_SUPER "off" CACHE STRING "")
-# Disable relic tests and benchmarks
 set(TESTS "0" CACHE STRING "Relic - Number of times each test is ran")
 set(BENCH "0" CACHE STRING "Relic - Number of times each benchmark is ran")
 
