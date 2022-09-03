@@ -17,6 +17,7 @@ project(BLS)
 set(BUILD_BLS_PYTHON_BINDINGS "1" CACHE STRING "")
 set(BUILD_BLS_TESTS "1" CACHE STRING "")
 set(BUILD_BLS_BENCHMARKS "1" CACHE STRING "")
+set(BUILD_LOCAL "0" CACHE STRING "")
 
 message(STATUS "Build python bindings: ${BUILD_BLS_PYTHON_BINDINGS}")
 message(STATUS "Build tests: ${BUILD_BLS_TESTS}")
@@ -28,6 +29,7 @@ set(CMAKE_MODULE_PATH
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules
 )
 
+if(NOT BUILD_LOCAL)
 include(FetchContent)
 
 FetchContent_Declare(Sodium
@@ -47,6 +49,7 @@ else ()
   # This is currently anchored to upstream aecdcae7956f542fbee2392c1f0feb0a8ac41dc5
   set(RELIC_GIT_TAG "1d98e5abf3ca5b14fd729bd5bcced88ea70ecfd7")
 endif ()
+endif()
 
 set(STBIN "off" CACHE STRING "Relic - Build static binaries")
 
@@ -58,10 +61,17 @@ else()
   set(ARITH "easy" CACHE STRING "")
 endif()
 
-find_package(relic REQUIRED)
-if(RELIC_FOUND)
-  message(STATUS "Found relic")
-endif()
+if (BUILD_LOCAL)
+    find_package(relic REQUIRED)
+    if (RELIC_FOUND)
+        message(STATUS "Found relic")
+    endif ()
+
+    find_package(sodium)
+    if (SODIUM_FOUND)
+        message(STATUS "Found sodium")
+    endif ()
+endif ()
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
   set(WSIZE "32" CACHE STRING "Relic - Processor word size")
