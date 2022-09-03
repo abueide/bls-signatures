@@ -48,16 +48,6 @@ else ()
   set(RELIC_GIT_TAG "1d98e5abf3ca5b14fd729bd5bcced88ea70ecfd7")
 endif ()
 
-message(STATUS "Relic will be built from: ${RELIC_GIT_TAG}")
-
-FetchContent_Declare(
-  relic
-  GIT_REPOSITORY https://github.com/Chia-Network/relic.git
-  GIT_TAG ${RELIC_GIT_TAG}
-)
-
-# Relic related options
-
 set(STBIN "off" CACHE STRING "Relic - Build static binaries")
 
 find_package(gmp)
@@ -66,6 +56,11 @@ if (GMP_FOUND)
   set(ARITH "gmp" CACHE STRING "")
 else()
   set(ARITH "easy" CACHE STRING "")
+endif()
+
+find_package(relic REQUIRED)
+if(RELIC_FOUND)
+  message(STATUS "Found relic")
 endif()
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
@@ -127,8 +122,6 @@ set(QUIET "on" CACHE STRING "Relic - Build with printing disabled")
 
 set(PP_EXT "LAZYR" CACHE STRING "")
 set(PP_METHD "LAZYR;OATEP" CACHE STRING "")
-
-FetchContent_MakeAvailable(relic)
 
 add_subdirectory(src)
 
