@@ -14,8 +14,8 @@ target_include_directories(bls
   PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     $<$<BOOL:${GMP_FOUND}>:${GMP_INCLUDES}>
-    ${relic_SOURCE_DIR}/include
-    ${relic_BINARY_DIR}/include
+    @relic@/include/relic
+    @relic@/lib
 )
 
 target_compile_definitions(bls
@@ -29,8 +29,8 @@ target_link_libraries(bls
     sodium
 )
 
-install(DIRECTORY ${relic_SOURCE_DIR}/include/ DESTINATION include/chiabls)
-install(DIRECTORY ${relic_BINARY_DIR}/include/ DESTINATION include/chiabls)
+install(DIRECTORY @relic@/include/relic DESTINATION include/chiabls)
+install(DIRECTORY @relic@/lib DESTINATION include/chiabls)
 install(FILES ${HEADERS} DESTINATION include/chiabls)
 install(FILES $<TARGET_FILE:bls> DESTINATION lib)
 

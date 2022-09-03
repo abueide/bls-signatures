@@ -28,51 +28,13 @@ set(CMAKE_MODULE_PATH
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules
 )
 
-include(FetchContent)
-
-FetchContent_Declare(Sodium
-  GIT_REPOSITORY https://github.com/AmineKhaldi/libsodium-cmake.git
-  # Latest commit at the moment this was added here
-  # Anchored to libsodium v1.0.18
-  GIT_TAG f73a3fe1afdc4e37ac5fe0ddd401bf521f6bba65
-)
 set(SODIUM_PCH "on" CACHE STRING "")
 set(SODIUM_DISABLE_TESTS "on" CACHE STRING "")
 set(SODIUM_CHIA_MINIMAL "on" CACHE STRING "")
-FetchContent_MakeAvailable(Sodium)
-
-if (DEFINED ENV{RELIC_MAIN})
-  set(RELIC_GIT_TAG "origin/main")
-else ()
-  # This is currently anchored to upstream aecdcae7956f542fbee2392c1f0feb0a8ac41dc5
-  set(RELIC_GIT_TAG "215c69966cb78b255995f0ee9c86bbbb41c3c42b")
-endif ()
-
-message(STATUS "Relic will be built from: ${RELIC_GIT_TAG}")
-
-FetchContent_Declare(
-  relic
-  GIT_REPOSITORY https://github.com/Chia-Network/relic.git
-  GIT_TAG ${RELIC_GIT_TAG}
-)
 
 # Relic related options
 
 set(STBIN "off" CACHE STRING "Relic - Build static binaries")
-
-find_package(gmp)
-if (GMP_FOUND)
-  message(STATUS "Found libgmp")
-  set(ARITH "gmp" CACHE STRING "")
-else()
-  set(ARITH "easy" CACHE STRING "")
-endif()
-
-if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-  set(WSIZE "32" CACHE STRING "Relic - Processor word size")
-else()
-  set(WSIZE "64" CACHE STRING "Relic - Processor word size")
-endif()
 
 if(EMSCRIPTEN)
   # emscripten needs arch set to be none since it can't compile assembly
@@ -127,8 +89,6 @@ set(QUIET "on" CACHE STRING "Relic - Build with printing disabled")
 
 set(PP_EXT "LAZYR" CACHE STRING "")
 set(PP_METHD "LAZYR;OATEP" CACHE STRING "")
-
-FetchContent_MakeAvailable(relic)
 
 add_subdirectory(src)
 
