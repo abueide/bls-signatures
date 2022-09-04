@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
-    relic.url = "github:abueide/relic/flake";
+    relic.url = "github:abueide/relic/110-flake";
   };
 
   outputs = { self, nixpkgs, flake-utils, relic }:
@@ -18,7 +18,7 @@
             };
             defaultPackage = with pkgs; stdenv.mkDerivation {
               pname = "bls-signatures";
-              version = "1.0.14";
+              version = "1.0.10";
               src = self;
 
               buildInputs = deps;
